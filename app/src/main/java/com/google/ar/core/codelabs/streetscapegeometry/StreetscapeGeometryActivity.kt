@@ -87,7 +87,7 @@ class StreetscapeGeometryActivity : AppCompatActivity() {
     session.configure(session.config.apply {
       geospatialMode = Config.GeospatialMode.ENABLED
       // TODO: Enable Streetscape Geometry
-
+      streetscapeGeometryMode = Config.StreetscapeGeometryMode.ENABLED
     })
   }
 

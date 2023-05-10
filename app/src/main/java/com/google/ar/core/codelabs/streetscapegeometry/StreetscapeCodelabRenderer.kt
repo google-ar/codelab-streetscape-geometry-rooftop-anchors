@@ -182,7 +182,8 @@ class StreetscapeCodelabRenderer(val activity: StreetscapeGeometryActivity) :
 
     if (showStreetscapeGeometry) {
       // TODO: Obtain Streetscape Geometry.
-
+      val streetscapeGeometry = session.getAllTrackables(StreetscapeGeometry::class.java)
+      streetscapeGeometryRenderer.render(render, streetscapeGeometry)
     }
 
     //<editor-fold desc="Render stars and balloons" defaultstate="collapsed">
