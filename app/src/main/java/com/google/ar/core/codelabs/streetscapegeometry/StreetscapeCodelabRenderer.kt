@@ -236,7 +236,18 @@ class StreetscapeCodelabRenderer(val activity: StreetscapeGeometryActivity) :
       starAnchors.add(anchor)
     } else if (placementMode == PlacementMode.BALLOON) {
       // TODO: Create an anchor for a balloon and add it to `balloonAnchors`
-
+      val transformedPose = ObjectPlacementHelper.createBalloonPose(frame.camera.pose, hit.hitPose)
+      val earth = session?.earth ?: return
+      val geospatialPose = earth.getGeospatialPose(transformedPose)
+      earth.resolveAnchorOnRooftopAsync(
+        geospatialPose.latitude, geospatialPose.longitude,
+        0.0,
+        transformedPose.qx(), transformedPose.qy(), transformedPose.qz(), transformedPose.qw()
+      ) { anchor, state ->
+        if (!state.isError) {
+          balloonAnchors.add(anchor)
+        }
+      }
     }
   }
 
