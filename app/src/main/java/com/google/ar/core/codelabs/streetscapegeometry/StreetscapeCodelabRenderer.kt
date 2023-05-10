@@ -224,10 +224,16 @@ class StreetscapeCodelabRenderer(val activity: StreetscapeGeometryActivity) :
   val balloonAnchors = mutableListOf<Anchor>()
   private fun onTap(frame: Frame) {
     // TODO: determine the Streetscape Geometry at the center of the viewport
-
+    val centerHits = frame.hitTest(centerCoords[0], centerCoords[1])
+    val hit = centerHits.firstOrNull {
+      val trackable = it.trackable
+      trackable is StreetscapeGeometry && trackable.type == StreetscapeGeometry.Type.BUILDING
+    } ?: return
     if (placementMode == PlacementMode.STAR) {
       // TODO: Create an anchor for a star and add it to `starAnchors`
-
+      val transformedPose = ObjectPlacementHelper.createStarPose(hit.hitPose)
+      val anchor = hit.trackable.createAnchor(transformedPose)
+      starAnchors.add(anchor)
     } else if (placementMode == PlacementMode.BALLOON) {
       // TODO: Create an anchor for a balloon and add it to `balloonAnchors`
 
